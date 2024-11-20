@@ -116,8 +116,8 @@ These parameters allow sellers to flexibly set up their listings according to th
 1. Clone the repository:
 
    ```
-   git clone https://github.com/[name]/umpeth-alpha-erc1155.git
-   cd simple-erc1155-storefront
+   git clone https://github.com/umpeth/ump-mvp
+   cd ump-mvp
    ```
 
 2. Install dependencies:
