@@ -1,0 +1,39 @@
+{
+  "name": "escrow-storefront",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network basemainnet",
+    "lint": "hardhat check",
+    "format": "prettier --ignore-path .gitignore --ignore-unknown .",
+    "test": "hardhat test",
+    "test:coverage": "hardhat coverage",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write --ignore-path .gitignore --ignore-unknown"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.11",
+    "@nomiclabs/hardhat-solhint": "^4.0.1",
+    "@openzeppelin/contracts": "^5.0.2",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.15",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "seaport-types": "github:ProjectOpenSea/seaport-types#main"
+  },
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=9.11"
+  }
+}
