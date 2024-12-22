@@ -188,7 +188,6 @@ async function main() {
   const simpleERC1155StorefrontFactory =
     await SimpleERC1155StorefrontFactory.deploy(
       seaportAddress,
-      escrowFactoryAddress,
       minSettleTime,
     );
 
@@ -222,6 +221,7 @@ async function main() {
     await simpleERC1155StorefrontFactory.createStorefront(
       designatedArbiter,
       receiptERC1155Address,
+      escrowFactoryAddress,
       initialSettleDeadline,
       {
         gasLimit: 6000000,
