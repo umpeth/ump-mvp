@@ -11,10 +11,9 @@ contract SimpleERC1155StorefrontFactory {
         address escrowFactory);
 
     address public immutable SEAPORT;
-    address public immutable ESCROW_FACTORY;
     uint256 public immutable MIN_SETTLE_TIME;
 
-    constructor(address _seaport, address _escrowFactory, uint256 _minSettleTime) {
+    constructor(address _seaport, uint256 _minSettleTime) {
         SEAPORT = _seaport;
         MIN_SETTLE_TIME = _minSettleTime;
     }
