@@ -202,13 +202,12 @@ async function main() {
   await saveDeploymentInfo(
     "SimpleERC1155StorefrontFactory",
     simpleERC1155StorefrontFactoryAddress,
-    [seaportAddress, escrowFactoryAddress, minSettleTime],
+    [seaportAddress, minSettleTime],
   );
 
   // Verify SimpleERC1155StorefrontFactory
   await verifyContract(simpleERC1155StorefrontFactoryAddress, [
     seaportAddress,
-    escrowFactoryAddress,
     minSettleTime,
   ]);
 
