@@ -1,12 +1,11 @@
 {
   "contractName": "SimpleERC1155StorefrontFactory",
-  "address": "0xF16148764a31BB43a09397f50cf018267D0bB62f",
+  "address": "0xb8d89bC71E12AE607A30dc02C10C95AFBc90AB22",
   "constructorArguments": [
     "0x0000000000000068F116a894984e2DB1123eB395",
-    "0x04e6654D571AcF88Edb26d4FA5ff9E3CA6209dF7",
     604800
   ],
-  "deploymentTime": "2024-11-05T23:23:21.436Z",
+  "deploymentTime": "2024-12-23T01:57:38.552Z",
   "network": "basemainnet",
   "chainId": 8453,
   "abi": [
@@ -15,11 +14,6 @@
         {
           "internalType": "address",
           "name": "_seaport",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_escrowFactory",
           "type": "address"
         },
         {
@@ -51,23 +45,16 @@
           "internalType": "address",
           "name": "erc1155Token",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "escrowFactory",
+          "type": "address"
         }
       ],
       "name": "StorefrontCreated",
       "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "ESCROW_FACTORY",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
     },
     {
       "inputs": [],
@@ -105,6 +92,11 @@
         {
           "internalType": "address",
           "name": "erc1155Token",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "escrowFactory",
           "type": "address"
         },
         {

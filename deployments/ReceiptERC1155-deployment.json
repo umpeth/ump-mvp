@@ -1,10 +1,10 @@
 {
   "contractName": "ReceiptERC1155",
-  "address": "0xeC4A184D990131d911C211c27FF5Cd0cB037cF72",
+  "address": "0x1Cc482c0BEF4B1F8feb041e0d915bF169AB2Be47",
   "constructorArguments": [
     "{\"name\":\"Receipt Collection\",\"description\":\"A collection of transaction receipts\",\"image\":\"https://example.com/collection-image.png\",\"external_link\":\"https://example.com\",\"seller_fee_basis_points\":100,\"fee_recipient\":\"0xE360EE830BB3dF8Ab17C277F1802a2e861850b9B\"}"
   ],
-  "deploymentTime": "2024-11-05T23:23:03.019Z",
+  "deploymentTime": "2024-12-23T01:57:20.278Z",
   "network": "basemainnet",
   "chainId": 8453,
   "abi": [

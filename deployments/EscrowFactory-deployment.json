@@ -1,8 +1,8 @@
 {
   "contractName": "EscrowFactory",
-  "address": "0x04e6654D571AcF88Edb26d4FA5ff9E3CA6209dF7",
+  "address": "0xD44F5E1bC33A5a458F3d7C78AfC3e4eD7652A126",
   "constructorArguments": [],
-  "deploymentTime": "2024-11-05T23:22:13.678Z",
+  "deploymentTime": "2024-12-23T01:56:31.409Z",
   "network": "basemainnet",
   "chainId": 8453,
   "abi": [

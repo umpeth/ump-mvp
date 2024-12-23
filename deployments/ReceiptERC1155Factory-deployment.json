@@ -1,8 +1,8 @@
 {
   "contractName": "ReceiptERC1155Factory",
-  "address": "0x3Ef694B605b604C8BCECcae0B709816696dD0dC9",
+  "address": "0xa22bc526Afe04d3677Ae3a1547da799B14383541",
   "constructorArguments": [],
-  "deploymentTime": "2024-11-05T23:22:44.365Z",
+  "deploymentTime": "2024-12-23T01:57:02.287Z",
   "network": "basemainnet",
   "chainId": 8453,
   "abi": [
