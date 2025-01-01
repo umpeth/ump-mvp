@@ -62,10 +62,10 @@ contract SimpleERC1155Storefront is ContractOffererInterface, Ownable, ERC165 {
         address paymentToken,
         uint256 price,
         address escrowContract,
-        string encryptedData,     // Decoded message fields
-        string ephemeralPublicKey,
-        string iv,
-        string verificationHash
+        bytes encryptedData,     // Optional message fields
+        bytes ephemeralPublicKey,
+        bytes iv,
+        bytes verificationHash
     );
     
     event ReadyStateChanged(bool newState);
@@ -77,10 +77,10 @@ contract SimpleERC1155Storefront is ContractOffererInterface, Ownable, ERC165 {
     event EncryptionPublicKeySet(string oldKey, string newKey);
 
     struct EncryptedMessage {
-        string encryptedData;
-        string ephemeralPublicKey;
-        string iv;
-        string verificationHash; // Optional
+        bytes encryptedData;
+        bytes ephemeralPublicKey;
+        bytes iv;
+        bytes verificationHash; // Optional
     }
 
     constructor(
@@ -165,11 +165,22 @@ contract SimpleERC1155Storefront is ContractOffererInterface, Ownable, ERC165 {
         emit EncryptionPublicKeySet(oldKey, newKey);
     }
 
+    // Decode the context data into a struct for event logging
     function _decodeContext(bytes calldata context) internal pure returns (EncryptedMessage memory) {
-        if (context.length > 0) {
-            return abi.decode(context, (EncryptedMessage));
+        if (context.length == 0) {
+            return EncryptedMessage("", "", "", "");
         }
-        return EncryptedMessage("", "", "", "");
+        
+        // Decode into a tuple of bytes
+        (bytes memory encData, bytes memory ephKey, bytes memory iv, bytes memory verHash) = 
+            abi.decode(context, (bytes, bytes, bytes, bytes));
+
+        return EncryptedMessage({
+            encryptedData: encData,
+            ephemeralPublicKey: ephKey,
+            iv: iv,
+            verificationHash: verHash
+        });
     }
 
     function updateListing(uint256 tokenId, uint256 newPrice, address newPaymentToken) external onlyOwner {
