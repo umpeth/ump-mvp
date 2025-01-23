@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-// UMP.eth v0.0.1
+// UMP.eth v0.0.2
 pragma solidity ^0.8.20;
 
 import {
@@ -48,7 +48,7 @@ contract SimpleERC1155Storefront is ContractOffererInterface, Ownable, ERC165 {
 
     bool private _initialized;
 
-
+    string public encryptionPublicKey;
 
     mapping(uint256 => TokenListing) public listings;
     uint256[] public listedTokenIds;
@@ -61,15 +61,27 @@ contract SimpleERC1155Storefront is ContractOffererInterface, Ownable, ERC165 {
         address buyer,
         address paymentToken,
         uint256 price,
-        address escrowContract
+        address escrowContract,
+        bytes encryptedData,     // Optional message fields
+        bytes ephemeralPublicKey,
+        bytes iv,
+        bytes verificationHash
     );
-
+    
     event ReadyStateChanged(bool newState);
     event SettleDeadlineUpdated(uint256 newSettleDeadline);
     event ERC1155TokenAddressChanged(address indexed oldAddress, address indexed newAddress);
     event ListingAdded(uint256 indexed tokenId, uint256 price, address indexed paymentToken);
     event ListingUpdated(uint256 indexed tokenId, uint256 oldPrice, uint256 newPrice, address oldPaymentToken, address indexed newPaymentToken);
     event ListingRemoved(uint256 indexed tokenId, uint256 price, address indexed paymentToken);
+    event EncryptionPublicKeySet(string oldKey, string newKey);
+
+    struct EncryptedMessage {
+        bytes encryptedData;
+        bytes ephemeralPublicKey;
+        bytes iv;
+        bytes verificationHash; // Optional
+    }
 
     constructor(
         address seaport,
@@ -147,6 +159,30 @@ contract SimpleERC1155Storefront is ContractOffererInterface, Ownable, ERC165 {
         emit ListingAdded(tokenId,price,paymentToken);
     }
 
+    function setEncryptionPublicKey(string calldata newKey) external onlyOwner {
+        string memory oldKey = encryptionPublicKey;
+        encryptionPublicKey = newKey;
+        emit EncryptionPublicKeySet(oldKey, newKey);
+    }
+
+    // Decode the context data into a struct for event logging
+    function _decodeContext(bytes calldata context) internal pure returns (EncryptedMessage memory) {
+        if (context.length == 0) {
+            return EncryptedMessage("", "", "", "");
+        }
+        
+        // Decode into a tuple of bytes
+        (bytes memory encData, bytes memory ephKey, bytes memory iv, bytes memory verHash) = 
+            abi.decode(context, (bytes, bytes, bytes, bytes));
+
+        return EncryptedMessage({
+            encryptedData: encData,
+            ephemeralPublicKey: ephKey,
+            iv: iv,
+            verificationHash: verHash
+        });
+    }
+
     function updateListing(uint256 tokenId, uint256 newPrice, address newPaymentToken) external onlyOwner {
         TokenListing memory oldListing = listings[tokenId];
         listings[tokenId].price = newPrice;
@@ -212,7 +248,7 @@ contract SimpleERC1155Storefront is ContractOffererInterface, Ownable, ERC165 {
         address fulfiller,
         SpentItem[] calldata spentItems,
         SpentItem[] calldata,
-        bytes calldata
+        bytes calldata context
     ) external override returns (SpentItem[] memory offer, ReceivedItem[] memory consideration) {
         if (!ready) revert StorefrontNotReady();
         if (msg.sender != SEAPORT) revert NotSeaport();
@@ -241,18 +277,21 @@ contract SimpleERC1155Storefront is ContractOffererInterface, Ownable, ERC165 {
         // Set the payer in the escrow contract
         escrowContract.setPayer(fulfiller, settleDeadline);
 
-
         return (offer, consideration);
     }
+
 
     function ratifyOrder(
         SpentItem[] calldata offer,
         ReceivedItem[] calldata consideration,
-        bytes calldata, // context
-        bytes32[] calldata, // orderHashes
-        uint256 //contractNonce
+        bytes calldata context,
+        bytes32[] calldata orderHashes,
+        uint256
     ) external override returns (bytes4) {
         if (msg.sender != SEAPORT) revert NotSeaport();
+        
+        // Decode the encrypted message, could be done off-chain to save gas
+        EncryptedMessage memory message = _decodeContext(context);
         
         emit StorefrontOrderFulfilled(
             offer[0].identifier,      // tokenId
@@ -260,7 +299,11 @@ contract SimpleERC1155Storefront is ContractOffererInterface, Ownable, ERC165 {
             consideration[0].recipient, // buyer
             consideration[0].token,    // paymentToken
             consideration[0].amount,   // price
-            address(escrowContract)    // escrowContract
+            address(escrowContract),   // escrowContract
+            message.encryptedData,     // Add encrypted message data
+            message.ephemeralPublicKey,
+            message.iv,
+            message.verificationHash
         );
 
         _createNewEscrowContract();

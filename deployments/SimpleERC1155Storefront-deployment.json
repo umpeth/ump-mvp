@@ -1,15 +1,15 @@
 {
   "contractName": "SimpleERC1155Storefront",
-  "address": "0x66b77F80FDa6Aa2Fb29722529976aD46e536Fe3A",
+  "address": "0x39Bc7661386cb0fde479a0dD405900F3Ac427F0B",
   "constructorArguments": [
     "0x0000000000000068F116a894984e2DB1123eB395",
     "0xE360EE830BB3dF8Ab17C277F1802a2e861850b9B",
-    "0x04e6654D571AcF88Edb26d4FA5ff9E3CA6209dF7",
-    "0xeC4A184D990131d911C211c27FF5Cd0cB037cF72",
+    "0xD44F5E1bC33A5a458F3d7C78AfC3e4eD7652A126",
+    "0x1Cc482c0BEF4B1F8feb041e0d915bF169AB2Be47",
     604800,
     1814400
   ],
-  "deploymentTime": "2024-11-05T23:24:09.517Z",
+  "deploymentTime": "2024-12-23T01:58:20.128Z",
   "network": "basemainnet",
   "chainId": 8453,
   "abi": [
@@ -167,6 +167,25 @@
         }
       ],
       "name": "ERC1155TokenAddressChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "oldKey",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "newKey",
+          "type": "string"
+        }
+      ],
+      "name": "EncryptionPublicKeySet",
       "type": "event"
     },
     {
@@ -339,6 +358,30 @@
           "internalType": "address",
           "name": "escrowContract",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "encryptedData",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "ephemeralPublicKey",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "iv",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "verificationHash",
+          "type": "string"
         }
       ],
       "name": "StorefrontOrderFulfilled",
@@ -398,6 +441,19 @@
           "internalType": "address",
           "name": "",
           "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "encryptionPublicKey",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
         }
       ],
       "stateMutability": "view",
@@ -505,7 +561,7 @@
         },
         {
           "internalType": "bytes",
-          "name": "",
+          "name": "context",
           "type": "bytes"
         }
       ],
@@ -1038,12 +1094,12 @@
         },
         {
           "internalType": "bytes",
-          "name": "",
+          "name": "context",
           "type": "bytes"
         },
         {
           "internalType": "bytes32[]",
-          "name": "",
+          "name": "orderHashes",
           "type": "bytes32[]"
         },
         {
@@ -1190,6 +1246,19 @@
         }
       ],
       "name": "setERC1155TokenAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "newKey",
+          "type": "string"
+        }
+      ],
+      "name": "setEncryptionPublicKey",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

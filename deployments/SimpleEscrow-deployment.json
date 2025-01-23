@@ -1,8 +1,8 @@
 {
   "contractName": "SimpleEscrow",
-  "address": "0xc165d9DE8DfBB40D9154Ce6B0072068946f22B20",
+  "address": "0xBC5D06E375Aa54C991E79F90392F2210dcD61DD1",
   "constructorArguments": [],
-  "deploymentTime": "2024-11-05T23:24:09.671Z",
+  "deploymentTime": "2024-12-23T01:58:20.176Z",
   "network": "basemainnet",
   "chainId": 8453,
   "abi": [
